@@ -1,31 +1,66 @@
-# shadcn/ui monorepo template
+# ByteBank TurboRepo
 
-This template is for creating a monorepo with shadcn/ui.
+Monorepo com micro front-ends do ByteBank usando Module Federation, TanStack Router e shadcn/ui.
 
-## Usage
+## 🏗️ Arquitetura
 
+Este projeto utiliza uma arquitetura de micro front-ends com:
+
+- **mfe-auth** (porta 3001): Micro front-end responsável pela autenticação
+- **mfe-menu** (porta 3002): Micro front-end do dashboard principal
+- **packages/ui**: Biblioteca compartilhada de componentes UI
+- **packages/env**: Configuração de ambiente compartilhada
+
+## 🚀 Desenvolvimento
+
+### Pré-requisitos
+- Node.js 20+
+- pnpm 10.4.1+
+
+### Instalação e execução
 ```bash
-pnpm dlx shadcn@latest init
+# Instalar dependências
+pnpm install
+
+# Executar em modo desenvolvimento
+pnpm dev
+
+# Build de produção
+pnpm build
 ```
 
-## Adding components
+### URLs de desenvolvimento
+- **mfe-auth**: http://localhost:3001
+- **mfe-menu**: http://localhost:3002
 
-To add components to your app, run the following command at the root of your `web` app:
+## 📦 Deploy
 
-```bash
-pnpm dlx shadcn@latest add button -c apps/web
+Para deploy no Netlify, consulte o arquivo [`DEPLOY.md`](./DEPLOY.md) com instruções detalhadas.
+
+### Deploy rápido
+1. Configure dois sites no Netlify
+2. Configure as variáveis de ambiente
+3. Deploy na ordem: auth → menu → atualizar URLs
+
+## 🔧 Tecnologias
+
+- **Build System**: Turbo + pnpm
+- **Frontend**: React 18 + TypeScript
+- **Bundler**: Vite
+- **Roteamento**: TanStack Router
+- **Micro Front-ends**: Module Federation
+- **UI Components**: shadcn/ui + Tailwind CSS
+- **Deploy**: Netlify + Docker (opcional)
+
+## 📁 Estrutura
+
 ```
-
-This will place the ui components in the `packages/ui/src/components` directory.
-
-## Tailwind
-
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
-
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button"
+apps/
+├── mfe-auth/          # Micro front-end de autenticação
+├── mfe-menu/          # Micro front-end do dashboard
+packages/
+├── ui/                # Componentes UI compartilhados
+├── env/               # Configuração de ambiente
+├── eslint-config/     # Configuração ESLint
+└── typescript-config/ # Configuração TypeScript
 ```

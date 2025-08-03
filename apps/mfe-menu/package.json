@@ -1,12 +1,13 @@
 {
-  "name": "apps/mfe-menu",
+  "name": "mfe-menu",
   "private": true,
   "type": "module",
   "scripts": {
     "preview": "vite preview",
     "dev": "vite ",
     "start": "vite ",
-    "build": "vite build && tsc",
+    "build": "tsc && vite build",
+    "build:netlify": "NODE_ENV=production tsc && vite build",
     "serve": "vite preview",
     "lint": "eslint",
     "format": "prettier",
