@@ -78,8 +78,27 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       target: 'esnext',
-      minify: false,
+      minify: true,
       cssCodeSplit: false,
+      rollupOptions: {
+        output: {
+          // Forçar nomes em minúsculas para compatibilidade com Netlify
+          entryFileNames: (chunkInfo) => {
+            const name = chunkInfo.name.toLowerCase();
+            return `assets/${name}-[hash].js`;
+          },
+          chunkFileNames: (chunkInfo) => {
+            const name = chunkInfo.name.toLowerCase();
+            return `assets/${name}-[hash].js`;
+          },
+          assetFileNames: (assetInfo) => {
+            const name = assetInfo.name ? assetInfo.name.toLowerCase() : 'asset';
+            return `assets/${name}-[hash][extname]`;
+          },
+          // Garantir chunks consistentes
+          manualChunks: undefined,
+        },
+      },
     },
     resolve: {
       alias: {
