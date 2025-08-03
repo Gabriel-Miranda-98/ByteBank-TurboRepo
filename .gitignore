@@ -38,3 +38,5 @@ npm-debug.log*
 **/*.__mf__temp/
 **/*-__mf
 apps/*/.__mf__temp/
+apps/mfe-auth/.__mf__temp
+apps/mfe-menu/.__mf__temp
