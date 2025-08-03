@@ -76,18 +76,55 @@ export default defineConfig(({ mode }) => {
         'Access-Control-Allow-Origin': '*',
       },
     },
-       build: {
-  target: 'esnext',
-  minify: false,
-  cssCodeSplit: true,
-  rollupOptions: {
-    output: {
-      assetFileNames: 'assets/[name]-[hash][extname]'.toLowerCase(),
-      chunkFileNames: 'assets/[name]-[hash].js'.toLowerCase(),
-      entryFileNames: 'assets/[name]-[hash].js'.toLowerCase(),
-    }
-  }
-},
+      build: {
+      target: 'esnext',
+      minify: false,
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          assetFileNames: 'assets/[name]-[hash][extname]',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          entryFileNames: 'assets/[name]-[hash].js',
+        },
+        plugins: [
+          {
+            name: 'lowercase-filenames',
+            generateBundle(_options, bundle) {
+              // Cast bundle to Record<string, any> to avoid index type errors
+              const bundleRecord = bundle as Record<string, any>
+              // Criar um mapa dos nomes antigos para os novos
+              const renamedFiles: Record<string, string> = {}
+              
+              // Primeiro, coletar todos os nomes que precisam ser alterados
+              for (const fileName in bundleRecord) {
+                const newFileName = fileName.toLowerCase()
+                if (fileName !== newFileName) {
+                  renamedFiles[fileName] = newFileName
+                }
+              }
+              
+              // Renomear os arquivos no bundle
+              for (const [oldName, newName] of Object.entries(renamedFiles)) {
+                bundleRecord[newName] = bundleRecord[oldName]
+                bundleRecord[newName].fileName = newName
+                delete bundleRecord[oldName]
+              }
+              
+              // Atualizar referências nos arquivos
+              for (const file of Object.values(bundleRecord)) {
+                if (file.type === 'chunk' && file.code) {
+                  let updatedCode = file.code
+                  for (const [oldName, newName] of Object.entries(renamedFiles)) {
+                    updatedCode = updatedCode.replace(new RegExp(oldName, 'g'), newName)
+                  }
+                  file.code = updatedCode
+                }
+              }
+            }
+          }
+        ]
+      },
+    },
     resolve: {
       alias: {
         '@': resolve(__dirname, './src'),
