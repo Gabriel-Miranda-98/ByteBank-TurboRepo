@@ -82,27 +82,7 @@ export default defineConfig(({ mode }) => {
       cssCodeSplit: false,
       rollupOptions: {
         output: {
-          // Forçar nomes em minúsculas para compatibilidade com Netlify
-          entryFileNames: (chunkInfo) => {
-            const name = chunkInfo.name.toLowerCase();
-            return `assets/${name}-[hash].js`;
-          },
-          chunkFileNames: (chunkInfo) => {
-            const name = chunkInfo.name.toLowerCase();
-            return `assets/${name}-[hash].js`;
-          },
-          assetFileNames: (assetInfo) => {
-            if (assetInfo.names && assetInfo.names.length > 0) {
-              // Usa o primeiro nome disponível, remove extensão e converte para minúscula
-              const originalName = assetInfo.names[0];
-              const nameWithoutExt = originalName.replace(/\.[^/.]+$/, "").toLowerCase();
-              const ext = originalName.match(/\.[^/.]+$/)?.[0] || '';
-              return `assets/${nameWithoutExt}-[hash]${ext}`;
-            }
-            return 'assets/asset-[hash][extname]';
-          },
-          // Garantir chunks consistentes
-          manualChunks: undefined,
+          assetFileNames: 'assets/[name]-[hash][extname]',
         },
       },
     },
