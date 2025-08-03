@@ -92,8 +92,14 @@ export default defineConfig(({ mode }) => {
             return `assets/${name}-[hash].js`;
           },
           assetFileNames: (assetInfo) => {
-            const name = assetInfo.name ? assetInfo.name.toLowerCase() : 'asset';
-            return `assets/${name}-[hash][extname]`;
+            if (assetInfo.names && assetInfo.names.length > 0) {
+              // Usa o primeiro nome disponível, remove extensão e converte para minúscula
+              const originalName = assetInfo.names[0];
+              const nameWithoutExt = originalName.replace(/\.[^/.]+$/, "").toLowerCase();
+              const ext = originalName.match(/\.[^/.]+$/)?.[0] || '';
+              return `assets/${nameWithoutExt}-[hash]${ext}`;
+            }
+            return 'assets/asset-[hash][extname]';
           },
           // Garantir chunks consistentes
           manualChunks: undefined,
