@@ -7,8 +7,22 @@
   NODE_VERSION = "20"
   PNPM_VERSION = "10.4.1"
   NODE_ENV = "production"
+
+# IMPORTANTE: Configurações para preservar case sensitivity
 [build.processing]
   skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = false
+
 # Redirect rules for SPA routing
 [[redirects]]
   from = "/*"
@@ -35,9 +49,25 @@
     Expires = "-1"
     Access-Control-Allow-Origin = "*"
 
-# Cache headers for static assets
+# Cache headers for static assets - PRESERVAR CASE SENSITIVITY
 [[headers]]
   for = "/assets/*"
   [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
+    X-Content-Type-Options = "nosniff"
+
+# Headers específicos para arquivos JS/CSS case-sensitive
+[[headers]]
+  for = "/assets/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/assets/*.css"
+  [headers.values]
+    Content-Type = "text/css; charset=utf-8"
     Cache-Control = "public, max-age=31536000, immutable"
     Access-Control-Allow-Origin = "*"
