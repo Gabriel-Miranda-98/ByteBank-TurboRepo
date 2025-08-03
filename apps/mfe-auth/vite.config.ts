@@ -76,16 +76,18 @@ export default defineConfig(({ mode }) => {
         'Access-Control-Allow-Origin': '*',
       },
     },
-    build: {
-      target: 'esnext',
-      minify: true,
-      cssCodeSplit: false,
-      rollupOptions: {
-        output: {
-          assetFileNames: 'assets/[name]-[hash][extname]',
-        },
-      },
-    },
+       build: {
+  target: 'esnext',
+  minify: false,
+  cssCodeSplit: true,
+  rollupOptions: {
+    output: {
+      assetFileNames: 'assets/[name]-[hash][extname]'.toLowerCase(),
+      chunkFileNames: 'assets/[name]-[hash].js'.toLowerCase(),
+      entryFileNames: 'assets/[name]-[hash].js'.toLowerCase(),
+    }
+  }
+},
     resolve: {
       alias: {
         '@': resolve(__dirname, './src'),

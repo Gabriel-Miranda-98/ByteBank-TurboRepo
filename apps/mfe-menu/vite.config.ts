@@ -75,15 +75,17 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      target: 'esnext',
-      minify: false,
-      cssCodeSplit: true,
-      rollupOptions: {
-        output: {
-          assetFileNames: 'assets/[name]-[hash][extname]',
-        },
-      },
-    },
+  target: 'esnext',
+  minify: false,
+  cssCodeSplit: true,
+  rollupOptions: {
+    output: {
+      assetFileNames: 'assets/[name]-[hash][extname]'.toLowerCase(),
+      chunkFileNames: 'assets/[name]-[hash].js'.toLowerCase(),
+      entryFileNames: 'assets/[name]-[hash].js'.toLowerCase(),
+    }
+  }
+},
     resolve: {
       alias: {
         '@': resolve(__dirname, './src'),

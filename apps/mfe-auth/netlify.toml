@@ -7,7 +7,8 @@
   NODE_VERSION = "20"
   PNPM_VERSION = "10.4.1"
   NODE_ENV = "production"
-
+[build.processing]
+  skip_processing = false
 # Redirect rules for SPA routing
 [[redirects]]
   from = "/*"
