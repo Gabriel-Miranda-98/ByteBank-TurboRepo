@@ -117,6 +117,19 @@ export default defineConfig(({ mode }) => {
                   }
                   file.code = updatedCode
                 }
+                
+                // Atualizar referências no index.html
+                if (file.type === 'asset' && file.fileName === 'index.html' && typeof file.source === 'string') {
+                  let updatedHtml = file.source
+                  for (const [oldName, newName] of Object.entries(renamedFiles)) {
+                    // Atualizar href e src attributes
+                    updatedHtml = updatedHtml.replace(
+                      new RegExp(`(href|src)="[^"]*${oldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, 'g'),
+                      (match: string): string => match.replace(oldName, newName)
+                    )
+                  }
+                  file.source = updatedHtml
+                }
               }
             }
           }
