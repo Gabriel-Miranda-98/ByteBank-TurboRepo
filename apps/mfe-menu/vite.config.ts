@@ -76,8 +76,8 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       target: 'esnext',
-      minify: false,
-      cssCodeSplit: false,
+      minify: true,
+      cssCodeSplit: true,
       rollupOptions: {
         output: {
           assetFileNames: 'assets/[name]-[hash][extname]',
