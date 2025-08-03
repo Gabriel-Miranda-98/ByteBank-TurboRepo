@@ -76,6 +76,14 @@ Os arquivos `netlify.toml` já estão configurados com:
 - Cache otimizado para `remoteEntry.js`
 - Redirecionamentos para SPA routing
 
+## ⚙️ Otimizações para Netlify
+
+O projeto está otimizado para o Netlify com:
+- **Nomes de arquivos em minúsculas** para compatibilidade
+- **Minificação habilitada** para produção
+- **Chunks otimizados** para carregamento rápido
+- **Assets versionados** com hash para cache busting
+
 ## 🐳 Deploy via Docker (Alternativo)
 
 ### Build das imagens
